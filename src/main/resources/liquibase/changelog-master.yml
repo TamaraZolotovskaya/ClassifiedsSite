@@ -1,0 +1,15 @@
+databaseChangeLog:
+   - include:
+        file: liquibase/scripts/create_image_table.xml
+   - include:
+      file: liquibase/scripts/create_user_table.xml
+   - include:
+      file: liquibase/scripts/create_ad_table.xml
+   - include:
+      file: liquibase/scripts/create_comment_table.xml
+   - include:
+      file: liquibase/scripts/change_column_type_user_phone.xml
+   - include:
+      file: liquibase/scripts/change_column_comment_add_date.xml
+   - include:
+        file: liquibase/scripts/change_column_type_user_password.xml

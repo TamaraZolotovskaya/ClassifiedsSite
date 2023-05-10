@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create_ad_table.1" author="tamara">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ad"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="ad">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="author_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(500)"/>
+            <column name="image_id" type="varchar(255)"/>
+            <column name="price" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="ad" baseColumnNames="author_id" constraintName="fk_ad_author_id"
+                                 referencedTableName="site_user" referencedColumnNames="id"
+                                 onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint baseTableName="ad" baseColumnNames="image_id" constraintName="fk_ad_image_id"
+                                 referencedTableName="image" referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

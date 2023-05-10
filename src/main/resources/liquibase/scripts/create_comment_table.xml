@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create_comment_table.1" author="tamara">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="comment"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="comment">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ad_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ad_date" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="varchar(1000)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="comment" baseColumnNames="ad_id"
+                                 constraintName="fk_comment_ad_id"
+                                 referencedTableName="ad" referencedColumnNames="id"
+                                 onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint baseTableName="comment" baseColumnNames="author_id"
+                                 constraintName="fk_comment_author_id"
+                                 referencedTableName="site_user" referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
