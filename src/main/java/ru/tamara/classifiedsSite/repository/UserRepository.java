@@ -8,6 +8,7 @@ import java.util.Optional;
 
 /**
  * Интерфейс, содержащий методы для работы с базой данных пользователей
+ *
  * @see User
  * @see ru.tamara.classifiedsSite.service.UserService
  * @see ru.tamara.classifiedsSite.service.impl.UserServiceImpl
@@ -16,6 +17,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
     /**
      * Метод ищет и возвращает пользователя по его email
+     *
      * @param email
      * @return User
      * @see User

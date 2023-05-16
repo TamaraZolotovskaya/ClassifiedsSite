@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Класс - исключение, описывающий ситуацию, когда объявление не найдено
+ *
  * @see ru.tamara.classifiedsSite.entity.Ad
  * @see ru.tamara.classifiedsSite.service.impl.AdServiceImpl
  */

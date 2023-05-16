@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="rename_imagePath_column.2" author="tamara">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="image"/>
+            <columnExists tableName="image" columnName="image_path"/>
+            <not>
+                <columnExists tableName="image" columnName="image"/>
+            </not>
+        </preConditions>
+
+        <renameColumn tableName="image" oldColumnName="image_path" newColumnName="image"/>
+
+    </changeSet>
+</databaseChangeLog>
+

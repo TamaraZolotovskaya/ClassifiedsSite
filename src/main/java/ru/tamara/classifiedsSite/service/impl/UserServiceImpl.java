@@ -14,15 +14,15 @@ import ru.tamara.classifiedsSite.entity.User;
 import ru.tamara.classifiedsSite.exception.UserNotFoundException;
 import ru.tamara.classifiedsSite.repository.ImageRepository;
 import ru.tamara.classifiedsSite.repository.UserRepository;
+import ru.tamara.classifiedsSite.service.ImageService;
 import ru.tamara.classifiedsSite.service.UserService;
 import ru.tamara.classifiedsSite.service.mapper.UserMapper;
 
-import java.io.IOException;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Класс - сервис, содержащий реализацию интерфейса {@link UserService} и {@link UserDetailsService}
+ *
  * @see User
  */
 @Service
@@ -30,11 +30,12 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserMapper userMapper;
+    private final ImageService imageService;
     private final UserRepository userRepository;
-    private final ImageRepository imageRepository;
 
     /**
      * Метод находит пользователя по email и возвращает его данные: имя пользователя и пароль
+     *
      * @param username
      * @return {@link UserDetails}
      * @throws UsernameNotFoundException если пользователь не найден
@@ -48,6 +49,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     /**
      * Метод ищет авторизованного пользователя
+     *
      * @return {@link UserRepository#findByEmail(String)}
      */
     @Override
@@ -60,6 +62,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     /**
      * Метод достает пользователя из базы данных {@link UserService#findAuthUser()} и
      * конвертирует его в {@link UserDto}
+     *
      * @return {@link UserMapper#mapToUser(UserDto)}
      * @see UserMapper
      */
@@ -76,6 +79,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     /**
      * Метод достает пользователя из базы данных {@link UserService#findAuthUser()},
      * редактирует данные и сохраняет в базе
+     *
      * @param newUserDto
      * @return {@link UserRepository#save(Object)}, {@link UserMapper#mapToUser(UserDto)}
      * @see UserMapper
@@ -99,34 +103,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * Метод достает пользователя из базы данных {@link UserService#findAuthUser()},
      * устанавливает или обновляет его аватар, затем сохраняет изменения в базе данных:
      * {@link ImageRepository#saveAndFlush(Object)}, {@link UserRepository#save(Object)}
+     *
      * @param image
+     * @return
      * @throws UsernameNotFoundException если пользователь не найден
      */
     @Override
-    public void updateUserImage(MultipartFile image) {
+    public Image updateUserImage(MultipartFile image) {
         User user = findAuthUser().orElseThrow(UserNotFoundException::new);
         Image oldImage = user.getImage();
         if (oldImage == null) {
-            Image newImage = new Image();
-            try {
-                byte[] bytes = image.getBytes();
-                newImage.setImagePath(bytes);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            newImage.setId(UUID.randomUUID().toString());
-            Image savedImage = imageRepository.saveAndFlush(newImage);
-            user.setImage(savedImage);
+            Image newImage = imageService.saveImage(image);
+            user.setImage(newImage);
         } else {
-            try {
-                byte[] bytes = image.getBytes();
-                oldImage.setImagePath(bytes);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            Image savedImage = imageRepository.saveAndFlush(oldImage);
-            user.setImage(savedImage);
+            Image updatedImage = imageService.updateImage(image, oldImage);
+            user.setImage(updatedImage);
         }
         userRepository.save(user);
+        return user.getImage();
     }
 }

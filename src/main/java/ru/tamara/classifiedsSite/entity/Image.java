@@ -21,9 +21,9 @@ public class Image {
     private String id;
 
     @Lob
-    @Column(name = "image_path")
+    @Column(name = "image")
     @Type(type = "org.hibernate.type.BinaryType")
-    private byte[] imagePath;
+    private byte[] image;
 
     @Override
     public boolean equals(Object o) {

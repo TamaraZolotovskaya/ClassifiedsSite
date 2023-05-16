@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Класс - исключение, описывающий ситуацию, когда пользователь не найден
+ *
  * @see ru.tamara.classifiedsSite.entity.User
  * @see ru.tamara.classifiedsSite.service.impl.UserServiceImpl
  */

@@ -18,7 +18,13 @@ import ru.tamara.classifiedsSite.service.AuthService;
 import ru.tamara.classifiedsSite.service.ImageService;
 import ru.tamara.classifiedsSite.service.UserService;
 
-
+/**
+ * Класс - контроллер для работы с авторизированным пользователем и его данными, содержащий набор API endpoints
+ *
+ * @see UserService
+ * @see AuthService
+ * @see ImageService
+ */
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
 @RequestMapping("/users")
@@ -45,7 +51,6 @@ public class UserController {
         authService.changePassword(newPasswordDto);
         return ResponseEntity.ok().build();
     }
-
 
     @Operation(
             summary = "Получить информацию об авторизованном пользователе"
@@ -113,6 +118,6 @@ public class UserController {
             })
     @GetMapping(value = "/{id}/image", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {
-        return ResponseEntity.ok(imageService.getImagePathById(id));
+        return ResponseEntity.ok(imageService.getImageById(id));
     }
 }

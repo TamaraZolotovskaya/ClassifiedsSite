@@ -2,9 +2,11 @@ package ru.tamara.classifiedsSite.dto;
 
 import lombok.Data;
 
-
+/**
+ * Класс DTO для передачи полной информации об объявлении
+ */
 @Data
-public class FullAdsDto {
+public class FullAdDto {
     //id объявления
     private int pk;
     //имя автора объявления

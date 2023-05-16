@@ -6,6 +6,7 @@ import ru.tamara.classifiedsSite.entity.Ad;
 
 /**
  * Интерфейс, содержащий методы для работы с базой данных объявлений
+ *
  * @see Ad
  * @see ru.tamara.classifiedsSite.service.AdService
  * @see ru.tamara.classifiedsSite.service.impl.AdServiceImpl

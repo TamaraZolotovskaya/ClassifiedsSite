@@ -6,6 +6,7 @@ import ru.tamara.classifiedsSite.entity.Image;
 
 /**
  * Интерфейс, содержащий методы для работы с базой данных изображений
+ *
  * @see Image
  * @see ru.tamara.classifiedsSite.service.ImageService
  * @see ru.tamara.classifiedsSite.service.impl.ImageServiceImpl

@@ -1,4 +1,4 @@
-package ru.tamara.classifiedsSite;
+package ru.tamara.classifiedsSite.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +11,12 @@ import ru.tamara.classifiedsSite.service.UserService;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+/**
+ * Класс для конфигурации безопасности.
+ */
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig
-        extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] AUTH_WHITELIST = {
             "/swagger-resources/**",
             "/swagger-ui.html",
@@ -31,19 +33,30 @@ public class WebSecurityConfig
         this.userService = userService;
     }
 
+    /**
+     * Создает экземпляр кодировщика паролей и задает силу.
+     *
+     * @return PasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(8);
     }
 
+    /**
+     * Метод конфигурирует безопасность для HTTP запросов, определяет права доступа и авторизацию.
+     *
+     * @param http
+     * @throws Exception в случае возникновения ошибок при настройке безопасности.
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeHttpRequests((authz) ->
-                                authz
-                                        .mvcMatchers(AUTH_WHITELIST).permitAll()
-                                        .mvcMatchers("/ads/**", "/users/**").authenticated()
+                        authz
+                                .mvcMatchers(AUTH_WHITELIST).permitAll()
+                                .mvcMatchers("/ads/**", "/users/**").authenticated()
                 )
                 .cors().and().httpBasic(withDefaults());
     }

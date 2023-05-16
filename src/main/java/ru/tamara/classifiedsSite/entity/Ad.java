@@ -1,6 +1,7 @@
 package ru.tamara.classifiedsSite.entity;
 
 import lombok.*;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Objects;
 
 /**
  * Класс, описывающий объявление
+ *
  * @see Image
  * @see User
  * @see Comment
@@ -32,7 +34,7 @@ public class Ad {
     @Column(length = 500)
     private String description;
 
-    @OneToOne
+    @OneToOne (cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "image_id")
     private Image image;
 

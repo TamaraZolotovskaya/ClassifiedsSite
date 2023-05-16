@@ -1,43 +1,49 @@
 package ru.tamara.classifiedsSite.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import ru.tamara.classifiedsSite.dto.AdsDto;
-import ru.tamara.classifiedsSite.dto.CreateAdsDto;
-import ru.tamara.classifiedsSite.dto.FullAdsDto;
-import ru.tamara.classifiedsSite.dto.ResponseWrapperAdsDto;
+import ru.tamara.classifiedsSite.dto.AdDto;
+import ru.tamara.classifiedsSite.dto.CreateAdDto;
+import ru.tamara.classifiedsSite.dto.FullAdDto;
+import ru.tamara.classifiedsSite.dto.ResponseWrapperAdDto;
+
 
 /**
  * Интерфейс сервисного класса AdServiceImpl, содержащий набор CRUD операций над объектом Ad
+ *
  * @see ru.tamara.classifiedsSite.entity.Ad
  * @see ru.tamara.classifiedsSite.service.impl.AdServiceImpl
  */
 public interface AdService {
     /**
      * Метод ищет и возвращает список всех объявлений
-     * @return ResponseWrapperAdsDto
+     *
+     * @return ResponseWrapperAdDto
      * @see ru.tamara.classifiedsSite.service.impl.AdServiceImpl
      */
-    ResponseWrapperAdsDto getAllAdsDto();
+    ResponseWrapperAdDto getAllAdsDto();
 
     /**
      * Метод создает объявление
+     *
      * @param adDto
      * @param image
-     * @return AdsDto
+     * @return AdDto
      * @see ru.tamara.classifiedsSite.service.impl.AdServiceImpl
      */
-    AdsDto createAds(CreateAdsDto adDto, MultipartFile image);
+    AdDto createAds(CreateAdDto adDto, MultipartFile image);
 
     /**
      * Метод ищет и возвращает объявление по id
+     *
      * @param id
-     * @return FullAdsDto
+     * @return FullAdDto
      * @see ru.tamara.classifiedsSite.service.impl.AdServiceImpl
      */
-    FullAdsDto getFullAdDto(Integer id);
+    FullAdDto getFullAdDto(Integer id);
 
     /**
      * Метод удаляет объявление по id
+     *
      * @param id
      * @see ru.tamara.classifiedsSite.service.impl.AdServiceImpl
      */
@@ -45,22 +51,25 @@ public interface AdService {
 
     /**
      * Метод редактирует объявление по id
+     *
      * @param id
-     * @param adDto
-     * @return AdsDto
+     * @param createAdDto
+     * @return AdDto
      * @see ru.tamara.classifiedsSite.service.impl.AdServiceImpl
      */
-    AdsDto updateAdDto(Integer id, CreateAdsDto adDto);
+    AdDto updateAdDto(Integer id, CreateAdDto createAdDto);
 
     /**
      * Метод ищет и возвращает список всех объявлений авторизированного пользователя
-     * @return ResponseWrapperAdsDto
+     *
+     * @return ResponseWrapperAdDto
      * @see ru.tamara.classifiedsSite.service.impl.AdServiceImpl
      */
-    ResponseWrapperAdsDto getAllUserAdsDto();
+    ResponseWrapperAdDto getAllUserAdsDto();
 
     /**
      * Метод обновляет изображение к объявлению по id
+     *
      * @param id
      * @param image
      * @see ru.tamara.classifiedsSite.service.impl.AdServiceImpl
@@ -69,6 +78,7 @@ public interface AdService {
 
     /**
      * Метод проверяет наличие доступа к объявлению по id
+     *
      * @param id
      * @see ru.tamara.classifiedsSite.service.impl.AdServiceImpl
      */

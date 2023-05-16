@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Класс - исключение, описывающий ситуацию, когда изображение не найдено
+ *
  * @see ru.tamara.classifiedsSite.entity.Image
  * @see ru.tamara.classifiedsSite.service.impl.ImageServiceImpl
  */

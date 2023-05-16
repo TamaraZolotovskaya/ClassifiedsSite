@@ -13,3 +13,5 @@ databaseChangeLog:
       file: liquibase/scripts/change_column_comment_add_date.xml
    - include:
         file: liquibase/scripts/change_column_type_user_password.xml
+   - include:
+        file: liquibase/scripts/change_column_rename_image_path.xml

@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Класс DTO для передачи полной информации о пользователе
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

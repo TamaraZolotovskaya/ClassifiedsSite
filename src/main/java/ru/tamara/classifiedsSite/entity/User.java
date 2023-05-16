@@ -4,12 +4,14 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.tamara.classifiedsSite.dto.Role;
+
 import javax.persistence.*;
 
 import java.util.*;
 
 /**
  * Класс, описывающий пользователя
+ *
  * @see Image
  * @see Ad
  * @see Comment
@@ -37,7 +39,7 @@ public class User implements UserDetails {
     @Column(length = 18)
     private String phone;
 
-    @OneToOne
+    @OneToOne (cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "image_id")
     private Image image;
 
@@ -92,6 +94,12 @@ public class User implements UserDetails {
         this.lastName = lastName;
         this.phone = phone;
         this.image = image;
+        this.password = password;
+        this.username = username;
+        this.role = role;
+    }
+
+    public User(String password, String username, Role role) {
         this.password = password;
         this.username = username;
         this.role = role;

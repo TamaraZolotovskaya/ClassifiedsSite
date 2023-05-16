@@ -8,6 +8,7 @@ import java.util.Objects;
 
 /**
  * Класс, описывающий комментарий
+ *
  * @see Ad
  * @see User
  */
@@ -20,7 +21,7 @@ import java.util.Objects;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (nullable = false)
+    @Column(nullable = false)
     private int id;
 
     @ManyToOne

@@ -8,6 +8,9 @@ import ru.tamara.classifiedsSite.service.mapper.CommentMapper;
 import java.time.ZoneId;
 import java.util.Optional;
 
+/**
+ * Класс - сервис-маппер, содержащий реализацию интерфейса {@link CommentMapper}
+ */
 @Component
 public class CommentMapperImpl implements CommentMapper {
     public CommentDto mapToCommentDto(Comment comment) {
@@ -25,10 +28,6 @@ public class CommentMapperImpl implements CommentMapper {
     public Comment mapToComment(CommentDto commentDto) {
         Comment mappedComment = new Comment();
         mappedComment.setId(commentDto.getPk());
-//        mappedComment.getAuthor().setId(commentDto.getAuthor());
-//        mappedComment.getAuthor().getImage().setImagePath(commentDto.getAuthorImage());
-//        mappedComment.getAuthor().setFirstName(commentDto.getAuthorFirstName());
-//        mappedComment.setCreatedAt(LocalDateTime.ofInstant(Instant.ofEpochMilli(commentDto.getCreatedAt()), ZoneId.systemDefault()));
         mappedComment.setText(commentDto.getText());
         return mappedComment;
     }

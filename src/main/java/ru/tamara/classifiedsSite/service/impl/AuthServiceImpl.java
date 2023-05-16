@@ -31,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
 
     /**
      * Метод производит авторизацию пользователя в системе {@link UserServiceImpl#findAuthUser()}
+     *
      * @param userName
      * @param password
      * @return {@link PasswordEncoder#matches(CharSequence, String)}
@@ -45,6 +46,7 @@ public class AuthServiceImpl implements AuthService {
     /**
      * Метод регистрирует пользователя в системе:
      * {@link UserMapper#mapToUser(UserDto)}, {@link PasswordEncoder#encode(CharSequence)}
+     *
      * @param registerReqDto
      * @param role
      * @return {@link UserRepository#save(Object)}
@@ -64,8 +66,9 @@ public class AuthServiceImpl implements AuthService {
 
     /**
      * Метод меняет пароль {@link PasswordEncoder#encode(CharSequence)}
+     *
      * @param newPasswordDto
-     * @throws UserNotFoundException если пользователь не найден
+     * @throws UserNotFoundException     если пользователь не найден
      * @throws UserUnauthorizedException если пользователь не аутентифицирован и поэтому не имеет права доступа к ресурсу
      */
     @Override

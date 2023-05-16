@@ -2,6 +2,9 @@ package ru.tamara.classifiedsSite.dto;
 
 import lombok.Data;
 
+/**
+ * Класс DTO для передачи информации о комментарии
+ */
 @Data
 public class CommentDto {
     //id комментария

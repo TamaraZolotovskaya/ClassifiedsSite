@@ -6,6 +6,7 @@ import ru.tamara.classifiedsSite.entity.Comment;
 
 /**
  * Интерфейс, содержащий методы для работы с базой данных комментариев
+ *
  * @see Comment
  * @see ru.tamara.classifiedsSite.service.CommentService
  * @see ru.tamara.classifiedsSite.service.impl.CommentServiceImpl

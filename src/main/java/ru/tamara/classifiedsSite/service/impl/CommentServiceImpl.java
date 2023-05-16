@@ -25,6 +25,7 @@ import java.util.Optional;
 
 /**
  * Класс - сервис, содержащий реализацию интерфейса {@link CommentService}
+ *
  * @see Comment
  * @see CommentRepository
  */
@@ -38,24 +39,8 @@ public class CommentServiceImpl implements CommentService {
     private final UserService userService;
 
     /**
-     * Метод проверяет наличие доступа к комментарию по id
-     * @param id
-     * @throws CommentNotFoundException если комментарий не найден
-     * @see UserService
-     */
-    @Override
-    public boolean checkAccess(Integer id) {
-        Role role = Role.ADMIN;
-        Comment comment = commentRepository.findById(id).orElseThrow(CommentNotFoundException::new);
-        Optional<User> user = userService.findAuthUser();
-        User notOptionalUser = user.get();
-        String currentPrincipalName = notOptionalUser.getUsername();
-        return comment.getAuthor().getUsername().equals(currentPrincipalName)
-                || notOptionalUser.getAuthorities().contains(role);
-    }
-
-    /**
      * Метод ищет и возвращает список всех комментариев {@link ResponseWrapperCommentDto} к объявлению по id объявления
+     *
      * @param adId
      * @return {@link CommentRepository#findAll()}, {@link CommentMapper#mapToCommentDto(Comment)},
      * @see CommentMapper
@@ -74,10 +59,11 @@ public class CommentServiceImpl implements CommentService {
 
     /**
      * Метод создает комментарий к объявлению по id объявления
+     *
      * @param adId
      * @param commentDto
      * @return {@link CommentRepository#save(Object)}, {@link CommentMapper#mapToCommentDto(Comment)}
-     * @throws AdsNotFoundException если объявление по указанному id не найдено
+     * @throws AdsNotFoundException  если объявление по указанному id не найдено
      * @throws UserNotFoundException если пользователь не найден
      * @see CommentMapper
      */
@@ -94,6 +80,7 @@ public class CommentServiceImpl implements CommentService {
 
     /**
      * Метод удаляет комментарий к объявлению по id объявления
+     *
      * @param adId
      * @param commentId
      * @return {@link CommentRepository#delete(Object)}
@@ -110,12 +97,13 @@ public class CommentServiceImpl implements CommentService {
 
     /**
      * Метод редактирует комментарий к объявлению по id
+     *
      * @param adId
      * @param commentId
      * @param commentDto
      * @return {@link CommentRepository#save(Object)}, {@link CommentMapper#mapToCommentDto(Comment)}
      * @throws CommentNotFoundException если комментарий не найден
-     * @throws UserForbiddenException если нет прав на обновление комментария
+     * @throws UserForbiddenException   если нет прав на обновление комментария
      * @see CommentMapper
      */
     @Override
@@ -123,8 +111,27 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
         if (checkAccess(commentId)) {
             comment.setText(commentDto.getText());
-            return commentMapper.mapToCommentDto(commentRepository.save(comment));
+            commentRepository.save(comment);
+            return commentMapper.mapToCommentDto(comment);
         }
         throw new UserForbiddenException();
+    }
+
+    /**
+     * Метод проверяет наличие доступа к комментарию по id
+     *
+     * @param id
+     * @throws CommentNotFoundException если комментарий не найден
+     * @see UserService
+     */
+    @Override
+    public boolean checkAccess(Integer id) {
+        Role role = Role.ADMIN;
+        Comment comment = commentRepository.findById(id).orElseThrow(CommentNotFoundException::new);
+        Optional<User> user = userService.findAuthUser();
+        User notOptionalUser = user.get();
+        String currentPrincipalName = notOptionalUser.getUsername();
+        return comment.getAuthor().getUsername().equals(currentPrincipalName)
+                || notOptionalUser.getAuthorities().contains(role);
     }
 }
