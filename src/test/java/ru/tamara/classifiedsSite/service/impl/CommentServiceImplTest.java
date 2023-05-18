@@ -30,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
+import static ru.tamara.classifiedsSite.TestConstants.*;
+
 
 @ExtendWith(MockitoExtension.class)
 public class CommentServiceImplTest {
@@ -51,7 +53,7 @@ public class CommentServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-        expectedUser.setUsername("user@gmail.com");
+        expectedUser.setUsername(USERNAME);
 
         expectedAd.setId(1);
 
@@ -59,7 +61,7 @@ public class CommentServiceImplTest {
         expectedComment.setAd(expectedAd);
         expectedComment.setAuthor(expectedUser);
         expectedComment.setCreatedAt(LocalDateTime.now());
-        expectedComment.setText("Тестовый комментарий");
+        expectedComment.setText(TEXT);
     }
 
     @Test
@@ -75,7 +77,7 @@ public class CommentServiceImplTest {
     @Test
     public void checkAccessTestWhenAdmin() {
         User userAdmin = new User();
-        userAdmin.setUsername("admin@gmail.com");
+        userAdmin.setUsername(USERNAME);
         userAdmin.setRole(Role.ADMIN);
 
         when(commentRepository.findById(anyInt())).thenReturn(Optional.of(expectedComment));
@@ -163,7 +165,7 @@ public class CommentServiceImplTest {
     public void updateCommentDtoTestWhenAccessExist() {
         expectedComment.setText(null);
         CommentDto commentDto = new CommentDto();
-        commentDto.setText("Тестовый комментарий");
+        commentDto.setText(TEXT);
         CommentDto commentDtoResult = new CommentDto();
 
         when(commentRepository.findById(anyInt())).thenReturn(Optional.of(expectedComment));

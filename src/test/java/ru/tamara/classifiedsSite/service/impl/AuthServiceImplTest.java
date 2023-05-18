@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static ru.tamara.classifiedsSite.TestConstants.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceImplTest {
@@ -40,10 +41,6 @@ public class AuthServiceImplTest {
     private UserRepository userRepository;
     @Mock
     private UserMapper userMapper;
-    private final String USERNAME = "testUser";
-    private final String PASSWORD = "testPassword";
-    private final String NEW_PASSWORD = "newPassword";
-    private final String ENCRYPTED_PASSWORD = "encryptedPassword";
     private final Role role = Role.USER;
     private final ru.tamara.classifiedsSite.entity.User user = new ru.tamara.classifiedsSite.entity.User();
     private final RegisterReqDto registerReqDto = new RegisterReqDto();
@@ -58,7 +55,7 @@ public class AuthServiceImplTest {
         registerReqDto.setPassword(PASSWORD);
 
         newPasswordDto.setCurrentPassword(PASSWORD);
-        newPasswordDto.setNewPassword(NEW_PASSWORD);
+        newPasswordDto.setNewPassword(DIF_PASSWORD);
     }
 
     @Test

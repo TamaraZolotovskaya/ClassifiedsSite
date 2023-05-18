@@ -17,6 +17,7 @@ import ru.tamara.classifiedsSite.service.AuthService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static ru.tamara.classifiedsSite.TestConstants.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthControllerTest {
@@ -32,11 +33,11 @@ public class AuthControllerTest {
 
     @BeforeEach
     public void setUp() {
-        req.setUsername("testuser");
-        req.setPassword("testpassword");
+        req.setUsername(USERNAME);
+        req.setPassword(PASSWORD);
 
-        reqReg.setUsername("testuser");
-        reqReg.setPassword("testpassword");
+        reqReg.setUsername(USERNAME);
+        reqReg.setPassword(PASSWORD);
     }
 
     @Test

@@ -17,6 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static ru.tamara.classifiedsSite.TestConstants.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ImageServiceImplTest {
@@ -31,8 +32,7 @@ public class ImageServiceImplTest {
     @DisplayName("Проверка сохранения картинки")
     public void testSaveImage() throws IOException {
         MultipartFile mockFile = mock(MultipartFile.class);
-        byte[] mockBytes = new byte[] {0, 1, 2};
-        when(mockFile.getBytes()).thenReturn(mockBytes);
+        when(mockFile.getBytes()).thenReturn(BYTES);
 
         Image savedImage = new Image();
         when(imageRepository.saveAndFlush(any(Image.class))).thenReturn(savedImage);
@@ -41,7 +41,6 @@ public class ImageServiceImplTest {
 
         verify(mockFile, times(1)).getBytes();
         verify(imageRepository, times(1)).saveAndFlush(any(Image.class));
-
         assertEquals(savedImage, result);
     }
 
@@ -49,25 +48,22 @@ public class ImageServiceImplTest {
     @DisplayName("Проверка обновления картинки")
     public void testUpdateImage() throws  IOException {
         MultipartFile mockFile = mock(MultipartFile.class);
-        byte[] mockBytes = new byte[] {0, 1, 2};
-        when(mockFile.getBytes()).thenReturn(mockBytes);
+        when(mockFile.getBytes()).thenReturn(BYTES);
 
         Image oldImage = new Image();
-        oldImage.setId("old-id");
-        byte[] oldBytes = new byte[] {3, 4, 5};
-        oldImage.setImage(oldBytes);
+        oldImage.setId(IMAGE_ID);
+        oldImage.setImage(OLD_BYTES);
 
         Image savedImage = new Image();
-        savedImage.setId("old-id");
-        savedImage.setImage(mockBytes);
+        savedImage.setId(IMAGE_ID);
+        savedImage.setImage(BYTES);
         when(imageRepository.saveAndFlush(any(Image.class))).thenReturn(savedImage);
 
         Image result = imageService.updateImage(mockFile, oldImage);
 
         verify(mockFile, times(1)).getBytes();
         verify(imageRepository, times(1)).saveAndFlush(any(Image.class));
-
-        assertArrayEquals(mockBytes, oldImage.getImage());
+        assertArrayEquals(BYTES, oldImage.getImage());
         assertEquals(savedImage, result);
 
     }
@@ -75,29 +71,21 @@ public class ImageServiceImplTest {
     @Test
     @DisplayName("Проверка поиска картинки по id")
     public void testGetImageById() {
-        String id = "test-id";
-        byte[] bytes = new byte[] {0, 1, 2};
-
         Image image = new Image();
-        image.setId(id);
-        image.setImage(bytes);
+        image.setId(IMAGE_ID);
+        image.setImage(BYTES);
 
-        when(imageRepository.findById(id)).thenReturn(Optional.of(image));
-
-        byte[] result = imageService.getImageById(id);
-
-        assertEquals(bytes, result);
+        when(imageRepository.findById(IMAGE_ID)).thenReturn(Optional.of(image));
+        byte[] result = imageService.getImageById(IMAGE_ID);
+        assertEquals(BYTES, result);
     }
 
     @Test
     @DisplayName("Проверка поиска картинки по несуществующему id")
     public void testGetImageByIdNotFound() {
-        String id = "not-found-id";
+        when(imageRepository.findById(IMAGE_ID)).thenReturn(Optional.empty());
 
-        when(imageRepository.findById(id)).thenReturn(Optional.empty());
-
-        assertThrows(ImageNotFoundException.class, () -> imageService.getImageById(id));
-
-        verify(imageRepository, times(1)).findById(id);
+        assertThrows(ImageNotFoundException.class, () -> imageService.getImageById(IMAGE_ID));
+        verify(imageRepository, times(1)).findById(IMAGE_ID);
     }
 }

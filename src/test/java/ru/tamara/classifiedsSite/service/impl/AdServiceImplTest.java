@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static ru.tamara.classifiedsSite.TestConstants.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AdServiceImplTest {
@@ -40,10 +41,7 @@ public class AdServiceImplTest {
     private ImageService imageService;
     @Mock
     private AdMapper adMapper;
-    private final String USERNAME = "testUser";
-    private final String DIF_USERNAME = "differentUser@mail.com";
-    private final String PASSWORD = "testPassword";
-    private final String DIF_PASSWORD = "differentTestPassword";
+
     private final Role userRole = Role.USER;
     private final Role adminRole = Role.ADMIN;
     private final User testUser = new User();

@@ -8,9 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.web.multipart.MultipartFile;
 import ru.tamara.classifiedsSite.dto.*;
 import ru.tamara.classifiedsSite.entity.Ad;
 import ru.tamara.classifiedsSite.entity.Comment;
@@ -26,6 +24,7 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static ru.tamara.classifiedsSite.TestConstants.*;
 
 @ExtendWith(MockitoExtension.class)
 @ContextConfiguration(classes = {WebSecurityConfig.class})
@@ -46,19 +45,18 @@ public class AdControllerTest {
 
     @BeforeEach
     public void setUp() {
-        testAd.setId(1);
-        testAd.setDescription("test description");
-        testAd.setTitle("test title");
-        testAd.setPrice(50);
+        testAd.setId(ID);
+        testAd.setDescription(AD_DESCRIPTION);
+        testAd.setTitle(AD_TITLE);
+        testAd.setPrice(PRICE);
+        testCom.setId(ID);
 
-        testCom.setId(2);
+        commentDto.setPk(ID);
+        commentDto.setText(TEXT);
 
-        commentDto.setPk(1);
-        commentDto.setText("test text");
-
-        createAdDto.setDescription("New Description");
-        createAdDto.setTitle("New Title");
-        createAdDto.setPrice(500);
+        createAdDto.setDescription(AD_DTO_DESCRIPTION);
+        createAdDto.setTitle(AD_DTO_TITLE);
+        createAdDto.setPrice(PRICE);
     }
 
     @Test
@@ -79,14 +77,11 @@ public class AdControllerTest {
     @Test
     public void addAdTest() throws Exception {
         AdDto adDto = new AdDto();
-        MultipartFile image = new MockMultipartFile("test.jpg", "test.jpg",
-                "image/jpeg", "test image".getBytes());
+        when(adService.createAds(createAdDto, IMAGE)).thenReturn(adDto);
 
-        when(adService.createAds(createAdDto, image)).thenReturn(adDto);
+        ResponseEntity<AdDto> response = adController.addAd(createAdDto, IMAGE);
 
-        ResponseEntity<AdDto> response = adController.addAd(createAdDto, image);
-
-        verify(adService).createAds(createAdDto, image);
+        verify(adService).createAds(createAdDto, IMAGE);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(adDto, response.getBody());
@@ -150,8 +145,8 @@ public class AdControllerTest {
     @Test
     public void updateAdTest() {
         AdDto adDto = new AdDto();
-        adDto.setTitle("New Title");
-        adDto.setPrice(500);
+        adDto.setTitle(AD_DTO_TITLE);
+        adDto.setPrice(PRICE);
 
         when(adService.updateAdDto(testAd.getId(), createAdDto)).thenReturn(adDto);
 
@@ -187,8 +182,8 @@ public class AdControllerTest {
     @Test
     public void updateCommentTest() {
         CommentDto newCommentDto = new CommentDto();
-        newCommentDto.setPk(1);
-        newCommentDto.setText("test text");
+        newCommentDto.setPk(ID);
+        newCommentDto.setText(TEXT);
 
         when(commentService.updateCommentDto(testAd.getId(), testCom.getId(), commentDto)).thenReturn(newCommentDto);
 
@@ -220,29 +215,23 @@ public class AdControllerTest {
 
     @Test
     public void updateImageTest() throws IOException {
-        MultipartFile image = new MockMultipartFile("image.jpg", new byte[]{1, 2, 3});
+        doNothing().when(adService).updateImageAdDto(testAd.getId(), IMAGE);
+        ResponseEntity<byte[]> response = adController.updateImage(testAd.getId(), IMAGE);
 
-        doNothing().when(adService).updateImageAdDto(testAd.getId(), image);
-
-        ResponseEntity<byte[]> response = adController.updateImage(testAd.getId(), image);
-
-        verify(adService).updateImageAdDto(testAd.getId(), image);
+        verify(adService).updateImageAdDto(testAd.getId(), IMAGE);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     public void getImageTest() {
-        String id = "1";
-        byte[] mockImage = {1, 2, 3};
+        when(imageService.getImageById(IMAGE_ID)).thenReturn(BYTES);
 
-        when(imageService.getImageById(id)).thenReturn(mockImage);
+        ResponseEntity<byte[]> response = adController.getImage(IMAGE_ID);
 
-        ResponseEntity<byte[]> response = adController.getImage(id);
-
-        verify(imageService).getImageById(id);
+        verify(imageService).getImageById(IMAGE_ID);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertArrayEquals(mockImage, response.getBody());
+        assertArrayEquals(BYTES, response.getBody());
     }
 }

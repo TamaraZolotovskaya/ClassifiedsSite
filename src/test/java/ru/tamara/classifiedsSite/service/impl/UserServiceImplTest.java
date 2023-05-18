@@ -21,7 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static ru.tamara.classifiedsSite.service.impl.UserServiceTestConstants.*;
+import static ru.tamara.classifiedsSite.TestConstants.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -83,14 +83,14 @@ class UserServiceImplTest {
         UserDto newUserDto = new UserDto();
         newUser.setId(1);
         newUser.setEmail(USERNAME);
-        newUser.setFirstName(NEWFIRSTNAME);
-        newUser.setLastName(NEWLASTNAME);
-        newUser.setPhone(NEWPHONE);
+        newUser.setFirstName(NEW_FIRST_NAME);
+        newUser.setLastName(NEW_LAST_NAME);
+        newUser.setPhone(NEW_PHONE);
         newUserDto.setId(1);
         newUserDto.setEmail(USERNAME);
-        newUserDto.setFirstName(NEWFIRSTNAME);
-        newUserDto.setLastName(NEWLASTNAME);
-        newUserDto.setPhone(NEWPHONE);
+        newUserDto.setFirstName(NEW_FIRST_NAME);
+        newUserDto.setLastName(NEW_LAST_NAME);
+        newUserDto.setPhone(NEW_PHONE);
 
         when(userMapper.mapToUserDto(newUser)).thenReturn(newUserDto);
         UserDto actual = userService.updateUserDto(newUserDto);
